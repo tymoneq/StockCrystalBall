@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np 
 import streamlit as st
-import webcolors as wc
 
 
 st.set_page_config("🔮Tymon's Crystal Ball🔮", "📈", layout="wide", initial_sidebar_state="collapsed")
