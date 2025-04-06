@@ -3,7 +3,7 @@ import numpy as np
 import yfinance as yf
 
 pd.set_option('future.no_silent_downcasting', True)
-writer = pd.ExcelWriter('stockData.xlsx', engine='xlsxwriter')
+# writer = pd.ExcelWriter('stockData.xlsx', engine='xlsxwriter')
 
 newColumnsNamesIncomeStmt = ["Przychody ze sprzedaży","Techniczny koszt wytworzenia produkcji sprzedanej",
                    "Koszty sprzedaży","Zysk ze sprzedaży","Zysk operacyjny (EBIT)","Zysk przed opodatkowaniem","Zysk netto",
@@ -19,7 +19,7 @@ newColumnsNamesBalanceSheet = ["Aktywa trwałe","Wartości niematerialne i prawn
 newColumnsNamesCashFlow = ["Przepływy pieniężne z działalności operacyjnej", "Przepływy pieniężne z działalności inwestycyjnej",
                            "Przepływy pieniężne z działalności finansowej", "Emisja akcji", "Dywidenda",
                            "Przepływy pieniężne razem", "Free Cash Flow"]
-
+IncomeStatment = dict()
 
 def GetStockData(stock):
     StockData = yf.Ticker(stock)
@@ -71,19 +71,20 @@ def GetStockData(stock):
     NewCashFlow["Emisja akcji"] = cashFlow["Issuance Of Capital Stock"]
     NewCashFlow["Przepływy pieniężne razem"] = cashFlow["Changes In Cash"]
     NewCashFlow["Free Cash Flow"] = cashFlow["Free Cash Flow"]
-    NewCashFlow["Dywidenda"] = cashFlow["Cash Dividends Paid"]
+    # NewCashFlow["Dywidenda"] = cashFlow["Cash Dividends Paid"]
     
     
     # NewCashFlow = NewCashFlow.T
     # NewBalanceSheet = NewBalanceSheet.T
     # NewIncomeStmt = NewIncomeStmt.T
     
-    NewIncomeStmt.to_excel(writer,sheet_name=str(stock)+"IncomeStmt")
-    NewBalanceSheet.to_excel(writer,sheet_name=str(stock)+"BalanceSheet")
-    NewCashFlow.to_excel(writer,sheet_name=str(stock)+"CashFlow")
+    IncomeStatment.update({stock:NewIncomeStmt})
+    # NewIncomeStmt.to_excel(writer,sheet_name=str(stock)+"IncomeStmt")
+    # NewBalanceSheet.to_excel(writer,sheet_name=str(stock)+"BalanceSheet")
+    # NewCashFlow.to_excel(writer,sheet_name=str(stock)+"CashFlow")
     
 
-listOfStocks = ["CDR"]
+listOfStocks = ["CDR","ALE","LPP","KGH",'ZAL','PKN','OPL','ENA','ACP','EAT','ENG','XTB']
 
 for i in range(len(listOfStocks)):
     listOfStocks[i] = listOfStocks[i] +".WA"
@@ -92,4 +93,4 @@ for stock in listOfStocks:
     GetStockData(stock)
     
     
-writer.close()
+# writer.close()
